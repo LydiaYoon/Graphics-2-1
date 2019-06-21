@@ -13,7 +13,7 @@ Graphics2 Homework1: Rotating A Color Cylinder
 ---
   
 ### MyColorCylinder  
-라는 클래스를 생성하여 실린더를 그리는데에 필요한 변수와 함수를 포함시켰다.  
+MyColorCylinder 라는 클래스를 생성하여 실린더를 그리는데에 필요한 변수와 함수를 포함시켰다.  
 멤버 변수에는 실린더의 윗면과 아랫면의 다각형이 몇각형인지를 기억하기위한 NumPolygon,  
 실린더의 각각의 면들을 삼각형으로 쪼개서 그릴 때 몇개의 삼각형이 필요한지를 기억하는 NumTriangle,  
 각각 쪼갠 삼각형들의 점의 수를 기억하는 NumVertex가 있고  
@@ -24,7 +24,7 @@ color 정보들은 CylinderVertex라는 구조체 형식으로 동적 메모리 
 
 
 ### 생성자  
-에서는 변수들의 초기값을 결정한다.  
+생성자에서는 변수들의 초기값을 결정한다.  
 NumPolygon은 10, NumTriangle은 40, NumVertex는 120으로 초기값을 정했고,  
 radius는 0.5로 정했으며 이 값은 프로그램이 실행되는 동안 따로 변하지는 않는다.  
 Vertices, vertex_pos, vertex_colors는 동적할당을 받기 때문에  
@@ -32,7 +32,7 @@ Vertices, vertex_pos, vertex_colors는 동적할당을 받기 때문에
 
 
 ### Init  
-함수에서는 colorcylinder함수를 불러와 가지고있는 point와 color 정보들을 vertices에 담는다.  
+Init 함수에서는 colorcylinder함수를 불러와 가지고있는 point와 color 정보들을 vertices에 담는다.  
 Vertex array와 Buffer를 만들고Buffer를 Binding한 후에 Buffer Data 하나를 보낸다.  
 이 때 Buffer Data는 vertices를 보내는데, 동적할당을 했기 때문에 CylinderVertex 크기로 NumVertex 개수만큼 보낸다.  
 Vshader와 fshader를 선언한 뒤 각각 데이터를 가져오는데  
