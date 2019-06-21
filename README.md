@@ -37,21 +37,23 @@ Vertex array와 Buffer를 만들고Buffer를 Binding한 후에 Buffer Data 하�
 이 때 Buffer Data는 vertices를 보내는데, 동적할당을 했기 때문에 CylinderVertex 크기로 NumVertex 개수만큼 보낸다.  
 Vshader와 fshader를 선언한 뒤 각각 데이터를 가져오는데  
 vPosition은 맨 처음부터 정보를 가져오고 vertices가 vec4형식의 구조체이기 때문에  
-다음에 가져오는 값은 vec4만큼의 offset을 갖는다. 
+다음에 가져오는 값은 vec4만큼의 offset을 갖는다.  
 vColor는 vec4만큼 뒤에서부터 정보를 가져오며 vPosition과 마찬가지로 vec4만큼의 offset을 갖는다.  
 이러한 과정이 잘 실행되면 bInit을 true로 저장한다. 
 
 
-![](./image/report01.png)
+ 
 ### Quad
-함수는 점의 위치를 의미하는 값 a, b, c, d를 받아와  
-a, b, c와 a, c, d의 삼각형으로 구분한 뒤 정보를 순서대로 vertices에 보낸다. 
+![](./image/report01.png)  
+Quad 함수는 점의 위치를 의미하는 값 a, b, c, d를 받아와  
+a, b, c와 a, c, d의 삼각형으로 구분한 뒤 정보를 순서대로 vertices에 보낸다.  
 이 때 그리는 사각형은 옆면에 있는 단색 면이므로 color값은 한가지인 a만 보낸다.  
 
 
-![](./image/report02.png)
+
 ### Triangle
-함수는 점의 위치를 의미하는 값 a, b와 radius값을 받아서 삼각형을 만들 정보를 순서대로 vertices에 보낸다.  
+![](./image/report02.png)  
+Triangle 함수는 점의 위치를 의미하는 값 a, b와 radius값을 받아서 삼각형을 만들 정보를 순서대로 vertices에 보낸다.  
 이 때 그리는 삼각형은 위쪽과 아래쪽에 있는 면이며 나머지 한 점은 다각형의 중심에 있다.  
 이 중심 점(center)의 x, y값은 0이며 높이값 z는 앞서 결정된 실린더의 크기를 정하는 radius로 정한다.  
 또한 이부분의 색은 fshader에서 칠할 것이므로 모두 똑같이 흰색값(1,1,1)을 보낸다.  
@@ -69,8 +71,9 @@ Quad에서처럼 첫번째 삼각형과 마지막 삼각형은 서로 이웃해�
 (i, 0, radius), (NumPolygon＊2-1, NumPolygon, -radius)</b>가 된다.
 
 
-![](./image/report03.png)
+
 ### GenerateNPolygon  
+![](./image/report03.png)  
 함수는 실린더의 가장 기본적인 (그림을 그리기 위해 쪼개놓지않은) point, color정보를 생성한다.  
 우선 main단에서 Num값을 NumPolygon에 저장한 뒤 NumTriangle과 NumVertex를 계산한다.  
 [그림 3]처럼 윗면과 아랫면을 중심점을 기준으로 쪼개서 그리고 옆면은 사각형을 두개의 삼각형으로 쪼개서 그린다.  
@@ -82,16 +85,16 @@ Main에서 keyboadcallback으로 1키를 누를 때 다각형 각이 줄어들�
 키를 누르고, 다시 정보를 생성할 때를 위해 <b>메모리를 지우고 다시 할당</b>받는다. 
 
 
-![](./image/report04.png)
+![](./image/report04.png)  
 실린더의 vertex는 윗부분의 점과 아랫부분의 점으로 구성된다.  
 NumPolygon값을 이용하여 dtheta를 구하고 돌아가면서 점을 하나씩 계산한다.  
 dtheta는 360도를 NumPolygon으로 나눈 값이 되고 x, y값은 [그림 4]와 같이 삼각함수를 이용하여 계산한다.  
 윗부분과 아랫부분의 점은 z값만 다르므로  
-배열의 i번째 점은 윗면의 <b>(cos(dtheta*i)*radius, sin(dtheta*i)＊radius, radius)</b>,  
+배열의 i번째 점은 윗면의 <b>(cos(dtheta＊i)*radius, sin(dtheta*i)＊radius, radius)</b>,  
 배열의 i+NumPolygon번째 점은 아랫면의 <b>(cos(dtheta＊i)＊radius, sin(dtheta＊i)＊radius, -radius)</b>가 된다. 
 
 
-![](./image/report05.png)
+![](./image/report05.png)  
 실린더의 옆면은 NumPolygon개이며, 이 면을 각각 다른 색으로 칠하기 위해서는  
 0부터 NumPolygon-1까지 NumPolygon개의 값이 필요하다.  
 Float 형식으로 sidecolor라는 변수를 생성하여 각 면마다 얼마씩 차이를 두고 칠할지를 계산해서 저장한다.  
@@ -107,15 +110,17 @@ i번째 면일 때 (1(sidecolor＊i), 0, sidecolor＊i) 가 된다.
 ### Draw  
 함수는 VertexArray를 다시 한 번 Binding하고 그림을 그린다.  
 
-![](./image/report06.png)
+
 ### Vshader  
+![](./image/report06.png)  
 에서 선형대수의 3차원 행렬 곱을 응용하여 객체를 x축, y축, z축으로 회전시켰다.  
 이 때theta값인 uTime을 행렬 m1, m2, m3마다 1배, 2배, 3배로 설정하여  
 과제 example과 같이 다양한 면이 모두 보이도록 회전하게 했다.  
 
 
-![](./image/report07.png)
+
 ### Fshader  
+![](./image/report07.png)  
 에서 옆면은 앞서 generate한 값 그대로 사용하고 윗면과 아랫면의 색을 결정한다.  
 어느 한 점이 실린더의 윗면 또는 아랫면인지는 pos.z의 절댓값이 radius와 같은지를 통해 확인한다.  
 즉, abs(pos.z) == 0.5이면 실린더의 윗면이거나 아랫면이다.  
